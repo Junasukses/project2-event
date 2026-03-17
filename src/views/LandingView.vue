@@ -1,282 +1,310 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import { ref } from 'vue'
 
 const stats = [
-  { value: '24 MARET 22:00', label: 'Tanggal & Waktu' },
-  { value: '12 JAM', label: 'Musik Non-Stop' },
-  { value: '30+', label: 'Artis Tampil' },
-  { value: '5', label: 'Panggung Utama' },
+  { value: '50.000+', label: 'Pengguna Aktif' },
+  { value: '4.9/5', label: 'Rating Pengguna' },
+  { value: '99.9%', label: 'Uptime Server' },
+  { value: '24/7', label: 'Customer Support' },
 ]
 
-const galleryImages = [
-  'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600&h=400&fit=crop',
-  'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&h=400&fit=crop',
-  'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&h=400&fit=crop',
-  'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=600&h=400&fit=crop',
-  'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&h=400&fit=crop',
-  'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&h=400&fit=crop',
-  'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=600&h=400&fit=crop',
-  'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=600&h=400&fit=crop',
-]
-
-const artists = [
-  { name: 'The Sigit', genre: 'Stoner Rock', image: 'https://images.unsplash.com/photo-1598387993281-cecf8b71a8f8?w=300&h=300&fit=crop' },
-  { name: 'Burgerkill', genre: 'Metalcore', image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&h=300&fit=crop' },
-  { name: 'Seringai', genre: 'Hard Rock', image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop' },
-  { name: 'Superman Is Dead', genre: 'Punk Rock', image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=300&h=300&fit=crop' },
-  { name: 'Kelompok Penerbang Roket', genre: 'Psychedelic Rock', image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=300&h=300&fit=crop' },
-  { name: 'Koil', genre: 'Alternative Metal', image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=300&h=300&fit=crop' },
-  { name: '/rif', genre: 'Hard Rock', image: 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=300&h=300&fit=crop' },
-  { name: 'Power Metal', genre: 'Heavy Metal', image: 'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=300&h=300&fit=crop' },
-]
-
-const reasons = [
+const features = [
   {
-    icon: '🎸',
-    title: 'Lineup Legendaris',
-    desc: 'Lebih dari 30 band rock terbaik Indonesia dan internasional tampil dalam satu panggung megah.'
+    icon: '📊',
+    title: 'Dashboard Analytics',
+    desc: 'Pantau performa bisnis dengan dashboard real-time yang interaktif dan mudah dipahami.',
   },
   {
-    icon: '🔊',
-    title: 'Sound System Kelas Dunia',
-    desc: 'Sistem audio terkini dengan kualitas suara jernih yang menggetarkan jiwa.'
+    icon: '📁',
+    title: 'Manajemen Proyek',
+    desc: 'Kelola proyek, tugas, dan deadline tim kamu dalam satu platform terintegrasi.',
   },
   {
-    icon: '🎪',
-    title: 'Zona Interaktif',
-    desc: 'Area food court, merchandise eksklusif, dan zona foto yang instagramable.'
+    icon: '💬',
+    title: 'Kolaborasi Tim',
+    desc: 'Chat, video call, dan file sharing langsung dari dalam aplikasi tanpa perlu alat lain.',
   },
   {
-    icon: '🏕️',
-    title: 'Camping Area',
-    desc: 'Rasakan pengalaman camping bersama komunitas rocker dari seluruh Indonesia.'
+    icon: '🔒',
+    title: 'Keamanan Terjamin',
+    desc: 'Enkripsi end-to-end dan backup otomatis menjaga data bisnismu tetap aman.',
+  },
+  {
+    icon: '⚡',
+    title: 'Performa Cepat',
+    desc: 'Dibangun dengan teknologi native. Ringan, cepat, dan tidak membebani perangkatmu.',
+  },
+  {
+    icon: '🔄',
+    title: 'Sync Multi-Device',
+    desc: 'Data tersinkronisasi otomatis di semua perangkat. Mulai di PC, lanjutkan di laptop.',
   },
 ]
 
-const activeGallery = ref(0)
+const screenshots = [
+  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop',
+  'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop',
+  'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800&h=500&fit=crop',
+  'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&h=500&fit=crop',
+]
+
+const testimonials = [
+  {
+    name: 'Andi Pratama',
+    role: 'CEO, TechStartup.id',
+    text: 'APPSYNC mengubah cara kerja tim kami. Produktivitas naik 40% dalam 3 bulan pertama!',
+    avatar:
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
+  },
+  {
+    name: 'Sari Dewi',
+    role: 'Project Manager, KreasiDigital',
+    text: 'Fitur manajemen proyek yang luar biasa. Semua terorganisir dan mudah dipantau kapan saja.',
+    avatar:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face',
+  },
+  {
+    name: 'Budi Santoso',
+    role: 'Freelancer',
+    text: 'Sebagai freelancer, APPSYNC membantu saya mengelola banyak klien tanpa kewalahan. Harga sangat worth it.',
+    avatar:
+      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
+  },
+]
+
+const platforms = [
+  { name: 'Windows', icon: '🪟' },
+  { name: 'macOS', icon: '🍎' },
+  { name: 'Linux', icon: '🐧' },
+]
 </script>
 
 <template>
   <div>
     <!-- HERO SECTION -->
     <section class="relative min-h-screen flex items-center overflow-hidden">
-      <!-- Background Image -->
+      <!-- Background -->
       <div class="absolute inset-0">
-        <img
-          src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1920&h=1080&fit=crop"
-          alt="Concert"
-          class="w-full h-full object-cover"
-        />
-        <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/40"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-darkest via-transparent to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-darkest via-darker to-primary/20"></div>
+        <!-- Decorative grid -->
+        <div
+          class="absolute inset-0 opacity-5"
+          style="
+            background-image: radial-gradient(
+              circle,
+              rgba(255, 255, 255, 0.15) 1px,
+              transparent 1px
+            );
+            background-size: 40px 40px;
+          "
+        ></div>
       </div>
 
-      <!-- Age Badge -->
-      <div class="absolute top-24 right-8 bg-primary text-white w-14 h-14 rounded-full flex items-center justify-center font-extrabold text-lg z-10">
-        18+
-      </div>
+      <!-- Floating shapes -->
+      <div class="absolute top-32 right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-32 left-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div>
 
       <!-- Content -->
       <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
-        <div class="max-w-2xl">
-          <div class="inline-block bg-gold/20 text-gold px-4 py-1.5 rounded-full text-sm font-semibold mb-6 border border-gold/30">
-            🔥 24 MARET 2026 — JAKARTA
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <div
+              class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-semibold mb-6 border border-primary/20"
+            >
+              <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+              Versi 3.0 — Baru Dirilis!
+            </div>
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-tight mb-6">
+              Satu Aplikasi
+              <br />
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent"
+                >Semua Solusi</span
+              >
+            </h1>
+            <p class="text-gray-300 text-lg sm:text-xl leading-relaxed mb-8 max-w-lg">
+              APPSYNC — aplikasi desktop all-in-one untuk manajemen proyek, kolaborasi tim, dan
+              analytics. Tingkatkan produktivitas hingga 10x lipat.
+            </p>
+            <div class="flex flex-wrap gap-4 mb-8">
+              <RouterLink
+                to="/info"
+                class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/30"
+              >
+                Lihat Harga
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </RouterLink>
+              <a
+                href="#screenshots"
+                class="inline-flex items-center gap-2 border-2 border-white/20 hover:border-white/50 text-white px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 hover:bg-white/5"
+              >
+                Lihat Demo
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </a>
+            </div>
+            <!-- Platforms -->
+            <div class="flex items-center gap-4">
+              <span class="text-gray-500 text-sm">Tersedia untuk:</span>
+              <div class="flex gap-3">
+                <span
+                  v-for="p in platforms"
+                  :key="p.name"
+                  class="flex items-center gap-1 text-gray-300 text-sm bg-white/5 px-3 py-1.5 rounded-lg"
+                >
+                  {{ p.icon }} {{ p.name }}
+                </span>
+              </div>
+            </div>
           </div>
-          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-tight mb-6">
-            ROK-FESTIVAL
-            <br />
-            <span class="text-primary">TERBESAR</span>
-            <br />
-            DI INDONESIA
-          </h1>
-          <p class="text-gray-300 text-lg sm:text-xl leading-relaxed mb-8 max-w-lg">
-            Rasakan energi musik rock yang menggelegar. Lebih dari 30 artis, 12 jam musik non-stop, dan pengalaman tak terlupakan.
-          </p>
-          <div class="flex flex-wrap gap-4">
-            <RouterLink
-              to="/info"
-              class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/30"
+
+          <!-- App Screenshot -->
+          <div class="relative hidden lg:block">
+            <div
+              class="relative rounded-2xl overflow-hidden shadow-2xl shadow-primary/20 border border-white/10"
             >
-              BELI TIKET
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </RouterLink>
-            <a
-              href="#gallery"
-              class="inline-flex items-center gap-2 border-2 border-white/30 hover:border-white text-white px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 hover:bg-white/10"
+              <img
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop"
+                alt="APPSYNC Dashboard"
+                class="w-full h-auto"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-darkest/50 to-transparent"></div>
+            </div>
+            <!-- Floating badge -->
+            <div
+              class="absolute -top-4 -right-4 bg-accent text-white px-4 py-2 rounded-lg font-bold text-sm rotate-3 shadow-lg"
             >
-              LIHAT VIDEO
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            </a>
+              ⚡ Super Cepat
+            </div>
+            <div
+              class="absolute -bottom-4 -left-4 bg-gold text-black px-4 py-2 rounded-lg font-bold text-sm -rotate-3 shadow-lg"
+            >
+              ⭐ 4.9 Rating
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- STATS BAR -->
-    <section class="bg-gold relative z-20 -mt-1">
+    <section class="bg-gradient-to-r from-primary to-primary-dark relative z-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-black/20">
-          <div
-            v-for="stat in stats"
-            :key="stat.label"
-            class="py-5 px-4 text-center"
-          >
-            <div class="text-black font-extrabold text-sm sm:text-base">{{ stat.value }}</div>
-            <div class="text-black/60 text-xs sm:text-sm mt-1">{{ stat.label }}</div>
+        <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/20">
+          <div v-for="stat in stats" :key="stat.label" class="py-5 px-4 text-center">
+            <div class="text-white font-extrabold text-sm sm:text-base">{{ stat.value }}</div>
+            <div class="text-white/60 text-xs sm:text-sm mt-1">{{ stat.label }}</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- GALLERY SECTION -->
-    <section id="gallery" class="py-20 bg-darkest">
+    <!-- FEATURES SECTION -->
+    <section id="features" class="py-20 bg-darkest">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="mb-12">
-          <h2 class="text-3xl sm:text-4xl font-black text-white uppercase mb-3">
-            Bagaimana Tahun Lalu?
-          </h2>
-          <p class="text-gray-400 text-lg max-w-2xl">
-            Kilas balik ROCKSTAGE 2025, momen-momen epik yang membuat semua orang ingin kembali lagi.
+        <div class="text-center mb-16">
+          <div
+            class="inline-block bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-semibold mb-4 border border-primary/20"
+          >
+            FITUR UNGGULAN
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-black text-white mb-4">Semua yang Kamu Butuhkan</h2>
+          <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+            Didesain untuk meningkatkan produktivitas tim kamu dengan fitur-fitur canggih dalam satu
+            platform.
           </p>
         </div>
 
-        <!-- Photo Grid -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <div
-            v-for="(img, idx) in galleryImages.slice(0, 4)"
-            :key="idx"
-            class="aspect-[4/3] overflow-hidden rounded-lg group cursor-pointer"
+            v-for="feature in features"
+            :key="feature.title"
+            class="bg-dark/50 border border-white/10 rounded-2xl p-6 hover:border-primary/40 hover:bg-dark/80 transition-all duration-300 group"
           >
-            <img
-              :src="img"
-              :alt="'Gallery ' + (idx + 1)"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
-          </div>
-        </div>
-
-        <!-- Video / Large Image -->
-        <div class="relative aspect-video rounded-xl overflow-hidden group cursor-pointer mb-8">
-          <img
-            src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1200&h=600&fit=crop"
-            alt="Concert crowd"
-            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-          />
-          <div class="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/30 transition-colors">
-            <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <div class="text-4xl mb-4 group-hover:scale-110 transition-transform">
+              {{ feature.icon }}
             </div>
-          </div>
-        </div>
-
-        <!-- Second Row -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div
-            v-for="(img, idx) in galleryImages.slice(4, 8)"
-            :key="idx"
-            class="aspect-[4/3] overflow-hidden rounded-lg group cursor-pointer"
-          >
-            <img
-              :src="img"
-              :alt="'Gallery ' + (idx + 5)"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
+            <h3 class="text-white font-bold text-lg mb-2">{{ feature.title }}</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">{{ feature.desc }}</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- REASONS SECTION -->
-    <section class="py-20 bg-darker">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 class="text-3xl sm:text-4xl font-black text-white uppercase mb-4">
-              Kenapa Kamu Harus Datang
-              <br />
-              <span class="text-primary">Ke Festival Ini...</span>
-            </h2>
-            <p class="text-gray-400 text-lg mb-8">
-              Bahkan jika kamu introvert, kami menciptakan tempat yang nyaman agar kamu bisa menikmati musik dari zona personal-mu.
-            </p>
-            <div class="grid sm:grid-cols-2 gap-6">
-              <div
-                v-for="reason in reasons"
-                :key="reason.title"
-                class="bg-dark/50 border border-white/10 rounded-xl p-5 hover:border-primary/50 transition-colors duration-300"
-              >
-                <div class="text-3xl mb-3">{{ reason.icon }}</div>
-                <h3 class="text-white font-bold text-lg mb-2">{{ reason.title }}</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">{{ reason.desc }}</p>
-              </div>
-            </div>
-          </div>
-          <div class="relative">
-            <div class="aspect-[4/5] rounded-2xl overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=1000&fit=crop"
-                alt="Festival vibes"
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <!-- Floating badges -->
-            <div class="absolute -top-4 -right-4 bg-primary text-white px-4 py-2 rounded-lg font-bold text-sm rotate-6 shadow-lg">
-              🎵 Non-Stop Music!
-            </div>
-            <div class="absolute -bottom-4 -left-4 bg-gold text-black px-4 py-2 rounded-lg font-bold text-sm -rotate-3 shadow-lg">
-              🔥 Limited Tickets
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ARTISTS SECTION -->
-    <section class="py-20 bg-darkest">
+    <!-- SCREENSHOTS SECTION -->
+    <section id="screenshots" class="py-20 bg-darker">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-          <h2 class="text-3xl sm:text-4xl font-black text-white uppercase mb-3">
-            Bintang Program Kami
+          <h2 class="text-3xl sm:text-4xl font-black text-white mb-4">
+            Intip Tampilan Aplikasinya
           </h2>
           <p class="text-gray-400 text-lg max-w-2xl mx-auto">
-            Para legenda dan artis terbaik yang siap menghiburmu sepanjang malam.
+            Interface modern dan intuitif yang membuat pekerjaan terasa lebih mudah.
           </p>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div class="grid md:grid-cols-2 gap-6">
           <div
-            v-for="artist in artists"
-            :key="artist.name"
-            class="group cursor-pointer"
+            v-for="(img, idx) in screenshots"
+            :key="idx"
+            class="group rounded-2xl overflow-hidden border border-white/10 hover:border-primary/40 transition-all duration-300"
           >
-            <div class="relative aspect-square overflow-hidden rounded-xl mb-3">
+            <div class="aspect-video overflow-hidden">
               <img
-                :src="artist.image"
-                :alt="artist.name"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                :src="img"
+                :alt="'Screenshot ' + (idx + 1)"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-              <div class="absolute bottom-0 left-0 right-0 p-4">
-                <div class="bg-primary/90 text-white text-xs px-2 py-1 rounded inline-block mb-1">
-                  {{ artist.genre }}
-                </div>
-              </div>
             </div>
-            <h3 class="text-white font-bold text-sm sm:text-base group-hover:text-primary transition-colors">
-              {{ artist.name }}
-            </h3>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="text-center mt-10">
-          <RouterLink
-            to="/info"
-            class="inline-flex items-center gap-2 text-primary hover:text-white font-bold text-lg transition-colors"
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials" class="py-20 bg-darkest">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl sm:text-4xl font-black text-white mb-4">Apa Kata Pengguna Kami</h2>
+          <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+            Ribuan profesional sudah merasakan manfaat APPSYNC untuk pekerjaan mereka.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <div
+            v-for="testimonial in testimonials"
+            :key="testimonial.name"
+            class="bg-dark/50 border border-white/10 rounded-2xl p-6"
           >
-            Lihat Semua Artis & Line-up
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </RouterLink>
+            <div class="flex items-center gap-1 text-gold mb-4">
+              <svg v-for="i in 5" :key="i" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                />
+              </svg>
+            </div>
+            <p class="text-gray-300 text-sm leading-relaxed mb-6 italic">
+              "{{ testimonial.text }}"
+            </p>
+            <div class="flex items-center gap-3">
+              <img
+                :src="testimonial.avatar"
+                :alt="testimonial.name"
+                class="w-10 h-10 rounded-full object-cover"
+              />
+              <div>
+                <div class="text-white font-semibold text-sm">{{ testimonial.name }}</div>
+                <div class="text-gray-500 text-xs">{{ testimonial.role }}</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -284,25 +312,29 @@ const activeGallery = ref(0)
     <!-- CTA SECTION -->
     <section class="py-20 bg-darker relative overflow-hidden">
       <div class="absolute inset-0">
-        <img
-          src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=1920&h=600&fit=crop"
-          alt="Concert"
-          class="w-full h-full object-cover opacity-20"
-        />
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10"></div>
       </div>
       <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
-        <h2 class="text-4xl sm:text-5xl font-black text-white uppercase mb-6">
-          Jangan Sampai Ketinggalan!
+        <h2 class="text-4xl sm:text-5xl font-black text-white mb-6">
+          Siap Meningkatkan Produktivitas?
         </h2>
         <p class="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-          Tiket terbatas dan selalu habis sebelum hari H. Amankan tiketmu sekarang dan jadilah bagian dari sejarah musik rock Indonesia.
+          Gabung dengan 50.000+ profesional yang sudah menggunakan APPSYNC. Pilih paket yang sesuai
+          kebutuhanmu.
         </p>
         <RouterLink
           to="/info"
           class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-10 py-5 rounded-xl text-xl font-bold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/30"
         >
-          BELI TIKET SEKARANG
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          LIHAT PAKET & HARGA
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            />
+          </svg>
         </RouterLink>
       </div>
     </section>

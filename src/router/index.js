@@ -10,27 +10,27 @@ const router = createRouter({
     {
       path: '/',
       name: 'landing',
-      component: LandingView
+      component: LandingView,
     },
     {
       path: '/info',
       name: 'concert-info',
-      component: ConcertInfoView
+      component: ConcertInfoView,
     },
     {
       path: '/payment',
       name: 'payment',
-      component: PaymentView
+      component: PaymentView,
     },
     {
       path: '/success',
       name: 'success',
-      component: SuccessView
-    }
+      component: SuccessView,
+    },
   ],
   scrollBehavior() {
     return { top: 0 }
-  }
+  },
 })
 
 export default router

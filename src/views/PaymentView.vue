@@ -5,7 +5,7 @@ import { store } from '@/store'
 
 const router = useRouter()
 
-// Redirect if no tickets
+// Redirect if no items
 if (store.cart.tickets.length === 0) {
   router.push('/info')
 }
@@ -20,7 +20,11 @@ const isProcessing = ref(false)
 const errors = ref({})
 
 function formatPrice(price) {
-  return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(price)
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    maximumFractionDigits: 0,
+  }).format(price)
 }
 
 const serviceFee = computed(() => Math.round(store.cart.totalAmount * 0.05))
@@ -30,7 +34,8 @@ function validate() {
   const e = {}
   if (!store.payment.name.trim()) e.name = 'Nama wajib diisi'
   if (!store.payment.email.trim()) e.email = 'Email wajib diisi'
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(store.payment.email)) e.email = 'Format email tidak valid'
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(store.payment.email))
+    e.email = 'Format email tidak valid'
   if (!store.payment.phone.trim()) e.phone = 'Nomor telepon wajib diisi'
   else if (!/^[\d+\-\s]{10,15}$/.test(store.payment.phone)) e.phone = 'Nomor telepon tidak valid'
   errors.value = e
@@ -40,8 +45,7 @@ function validate() {
 async function processPayment() {
   if (!validate()) return
   isProcessing.value = true
-  // Simulate payment processing
-  await new Promise(resolve => setTimeout(resolve, 2000))
+  await new Promise((resolve) => setTimeout(resolve, 2000))
   store.confirmOrder()
   isProcessing.value = false
   router.push('/success')
@@ -53,9 +57,14 @@ async function processPayment() {
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <!-- Header -->
       <div class="mb-8">
-        <button @click="router.push('/info')" class="text-gray-400 hover:text-white text-sm flex items-center gap-2 mb-4 transition-colors cursor-pointer">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          Kembali ke pemilihan tiket
+        <button
+          @click="router.push('/info')"
+          class="text-gray-400 hover:text-white text-sm flex items-center gap-2 mb-4 transition-colors cursor-pointer"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+          Kembali ke pilihan paket
         </button>
         <h1 class="text-3xl font-black text-white uppercase">Pembayaran</h1>
         <p class="text-gray-400 mt-1">Lengkapi data diri dan pilih metode pembayaran</p>
@@ -68,7 +77,7 @@ async function processPayment() {
           <div class="bg-dark rounded-2xl p-6 border border-white/10">
             <h2 class="text-white font-bold text-lg mb-6 flex items-center gap-2">
               <span class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-sm font-bold">1</span>
-              Data Pemesan
+              Data Pembeli
             </h2>
             <div class="space-y-4">
               <div>
@@ -79,7 +88,7 @@ async function processPayment() {
                   placeholder="Masukkan nama lengkap"
                   :class="[
                     'w-full bg-darker border rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all',
-                    errors.name ? 'border-red-500' : 'border-white/10'
+                    errors.name ? 'border-red-500' : 'border-white/10',
                   ]"
                 />
                 <p v-if="errors.name" class="text-red-400 text-xs mt-1">{{ errors.name }}</p>
@@ -93,7 +102,7 @@ async function processPayment() {
                     placeholder="email@example.com"
                     :class="[
                       'w-full bg-darker border rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all',
-                      errors.email ? 'border-red-500' : 'border-white/10'
+                      errors.email ? 'border-red-500' : 'border-white/10',
                     ]"
                   />
                   <p v-if="errors.email" class="text-red-400 text-xs mt-1">{{ errors.email }}</p>
@@ -106,7 +115,7 @@ async function processPayment() {
                     placeholder="+62 812-xxxx-xxxx"
                     :class="[
                       'w-full bg-darker border rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all',
-                      errors.phone ? 'border-red-500' : 'border-white/10'
+                      errors.phone ? 'border-red-500' : 'border-white/10',
                     ]"
                   />
                   <p v-if="errors.phone" class="text-red-400 text-xs mt-1">{{ errors.phone }}</p>
@@ -129,19 +138,11 @@ async function processPayment() {
                   'flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all duration-200',
                   store.payment.method === method.id
                     ? 'border-primary bg-primary/10'
-                    : 'border-white/10 hover:border-white/30 bg-darker'
+                    : 'border-white/10 hover:border-white/30 bg-darker',
                 ]"
               >
-                <input
-                  type="radio"
-                  :value="method.id"
-                  v-model="store.payment.method"
-                  class="sr-only"
-                />
-                <div :class="[
-                  'w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0',
-                  store.payment.method === method.id ? 'border-primary' : 'border-gray-500'
-                ]">
+                <input type="radio" :value="method.id" v-model="store.payment.method" class="sr-only"/>
+                <div :class="['w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0', store.payment.method === method.id ? 'border-primary' : 'border-gray-500']">
                   <div v-if="store.payment.method === method.id" class="w-2.5 h-2.5 bg-primary rounded-full"></div>
                 </div>
                 <span class="text-2xl">{{ method.icon }}</span>
@@ -159,32 +160,32 @@ async function processPayment() {
           <div class="bg-dark rounded-2xl p-6 border border-white/10 sticky top-24">
             <h2 class="text-white font-bold text-lg mb-6">Ringkasan Pesanan</h2>
 
-            <!-- Tickets -->
+            <!-- Items -->
             <div class="space-y-4 mb-6">
               <div
-                v-for="ticket in store.cart.tickets"
-                :key="ticket.id"
+                v-for="item in store.cart.tickets"
+                :key="item.id"
                 class="flex items-start justify-between gap-4"
               >
                 <div class="flex-1">
-                  <div class="text-white font-medium text-sm">{{ ticket.name }}</div>
+                  <div class="text-white font-medium text-sm">{{ item.name }}</div>
                   <div class="flex items-center gap-3 mt-2">
                     <button
-                      @click="store.updateQuantity(ticket.id, ticket.quantity - 1)"
+                      @click="store.updateQuantity(item.id, item.quantity - 1)"
                       class="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm transition-colors cursor-pointer"
                     >−</button>
-                    <span class="text-white text-sm font-medium w-6 text-center">{{ ticket.quantity }}</span>
+                    <span class="text-white text-sm font-medium w-6 text-center">{{ item.quantity }}</span>
                     <button
-                      @click="store.updateQuantity(ticket.id, ticket.quantity + 1)"
+                      @click="store.updateQuantity(item.id, item.quantity + 1)"
                       class="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm transition-colors cursor-pointer"
                     >+</button>
                     <button
-                      @click="store.removeTicket(ticket.id)"
+                      @click="store.removeTicket(item.id)"
                       class="text-red-400 hover:text-red-300 text-xs ml-auto transition-colors cursor-pointer"
                     >Hapus</button>
                   </div>
                 </div>
-                <div class="text-white font-medium text-sm">{{ formatPrice(ticket.price * ticket.quantity) }}</div>
+                <div class="text-white font-medium text-sm">{{ formatPrice(item.price * item.quantity) }}</div>
               </div>
             </div>
 
@@ -210,7 +211,7 @@ async function processPayment() {
                 'w-full mt-6 py-4 rounded-xl font-bold text-sm uppercase tracking-wider transition-all duration-300 cursor-pointer',
                 isProcessing
                   ? 'bg-gray-600 text-gray-300 cursor-not-allowed'
-                  : 'bg-primary hover:bg-primary-dark text-white hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/30'
+                  : 'bg-primary hover:bg-primary-dark text-white hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/30',
               ]"
             >
               <span v-if="isProcessing" class="flex items-center justify-center gap-2">
@@ -223,9 +224,7 @@ async function processPayment() {
               <span v-else>Bayar Sekarang</span>
             </button>
 
-            <p class="text-gray-500 text-xs text-center mt-4">
-              🔒 Pembayaran aman dan terenkripsi
-            </p>
+            <p class="text-gray-500 text-xs text-center mt-4">🔒 Pembayaran aman dan terenkripsi</p>
           </div>
         </div>
       </div>

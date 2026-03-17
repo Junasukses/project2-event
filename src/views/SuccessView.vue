@@ -20,14 +20,32 @@ const totalAmount = computed(() => {
   return subtotal + fee
 })
 
+// Generate a fake license key
+const licenseKey = computed(() => {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+  const segments = []
+  for (let s = 0; s < 4; s++) {
+    let seg = ''
+    for (let i = 0; i < 5; i++) {
+      seg += chars[Math.floor(Math.random() * chars.length)]
+    }
+    segments.push(seg)
+  }
+  return segments.join('-')
+})
+
 function formatPrice(price) {
-  return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(price)
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    maximumFractionDigits: 0,
+  }).format(price)
 }
 
 // Confetti animation
 const confettiPieces = ref([])
 onMounted(() => {
-  const colors = ['#c8102e', '#d4a017', '#ffffff', '#ff6b6b', '#ffd93d']
+  const colors = ['#6366f1', '#06b6d4', '#f59e0b', '#ffffff', '#a78bfa']
   for (let i = 0; i < 50; i++) {
     confettiPieces.value.push({
       id: i,
@@ -63,7 +81,7 @@ function backToHome() {
           animationDelay: piece.delay + 's',
           animationDuration: piece.duration + 's',
           opacity: 0.8,
-          transform: 'rotate(' + (Math.random() * 360) + 'deg)',
+          transform: 'rotate(' + Math.random() * 360 + 'deg)',
         }"
       ></div>
     </div>
@@ -82,11 +100,11 @@ function backToHome() {
           </div>
         </div>
 
-        <h1 class="text-3xl sm:text-4xl font-black text-white uppercase mb-3">
+        <h1 class="text-3xl sm:text-4xl font-black text-white mb-3">
           Pembayaran Berhasil! 🎉
         </h1>
         <p class="text-gray-400 text-lg mb-8">
-          Tiketmu sudah dikonfirmasi. Sampai jumpa di ROCKSTAGE 2026!
+          Lisensi APPSYNC kamu sudah aktif. Selamat menggunakan!
         </p>
 
         <!-- Order Details -->
@@ -106,25 +124,25 @@ function backToHome() {
               <span class="text-white">{{ customerEmail }}</span>
             </div>
             <div class="flex justify-between text-sm">
-              <span class="text-gray-400">Tanggal Event</span>
-              <span class="text-white">24 Maret 2026</span>
+              <span class="text-gray-400">Tipe Lisensi</span>
+              <span class="text-white">Permanent (Lifetime)</span>
             </div>
             <div class="flex justify-between text-sm">
-              <span class="text-gray-400">Lokasi</span>
-              <span class="text-white">GBK, Jakarta</span>
+              <span class="text-gray-400">Platform</span>
+              <span class="text-white">Windows / macOS / Linux</span>
             </div>
           </div>
 
-          <!-- Tickets -->
+          <!-- License items -->
           <div class="space-y-2 mb-4 pb-4 border-b border-white/10">
-            <div class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Tiket</div>
+            <div class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Lisensi</div>
             <div
-              v-for="ticket in ticketDetails"
-              :key="ticket.id"
+              v-for="item in ticketDetails"
+              :key="item.id"
               class="flex justify-between text-sm"
             >
-              <span class="text-white">{{ ticket.name }} x{{ ticket.quantity }}</span>
-              <span class="text-white">{{ formatPrice(ticket.price * ticket.quantity) }}</span>
+              <span class="text-white">{{ item.name }} x{{ item.quantity }}</span>
+              <span class="text-white">{{ formatPrice(item.price * item.quantity) }}</span>
             </div>
           </div>
 
@@ -134,48 +152,59 @@ function backToHome() {
           </div>
         </div>
 
-        <!-- QR Code Placeholder -->
-        <div class="bg-white rounded-xl p-6 inline-block mb-8">
-          <div class="w-40 h-40 bg-gray-100 rounded-lg flex items-center justify-center">
-            <div class="text-center">
-              <svg class="w-20 h-20 text-gray-800 mx-auto" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M3 11h2v2H3zm0-4h2v2H3zm4 4h2v2H7zM7 3h2v2H7zm4 0h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm4-8h2v2h-2zm0 4h2v2h-2zm4 0h2v2h-2zm0-4h2v2h-2zm0 8h2v2h-2zM3 3h2v2H3zm0 8h2v2H3zm4 4h2v2H7zm8 0h2v2h-2zm4 0h2v2h-2zm0 4h2v2h-2zM3 15h2v2H3zm0 4h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/>
-              </svg>
-              <p class="text-gray-600 text-xs font-medium mt-1">E-Ticket QR</p>
-            </div>
+        <!-- License Key -->
+        <div class="bg-darker rounded-2xl p-6 mb-8 border border-primary/30">
+          <div class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3">🔑 License Key</div>
+          <div class="bg-darkest rounded-xl p-4 font-mono text-primary text-lg sm:text-xl font-bold tracking-widest select-all">
+            {{ licenseKey }}
           </div>
+          <p class="text-gray-500 text-xs mt-3">Simpan license key ini. Kamu akan membutuhkannya saat aktivasi aplikasi.</p>
         </div>
 
         <p class="text-gray-400 text-sm mb-8">
-          E-ticket dan QR code telah dikirim ke <span class="text-primary font-medium">{{ customerEmail }}</span>.
-          <br/>Tunjukkan QR code ini di pintu masuk.
+          License key dan link download telah dikirim ke
+          <span class="text-primary font-medium">{{ customerEmail }}</span>.
         </p>
 
         <!-- Actions -->
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <button
-            class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300 cursor-pointer"
+            class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300 hover:scale-105 cursor-pointer"
           >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            Download E-Ticket
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+            Download APPSYNC
           </button>
           <button
             @click="backToHome"
-            class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300 hover:scale-105 cursor-pointer"
+            class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300 cursor-pointer"
           >
             Kembali ke Beranda
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
           </button>
         </div>
       </div>
 
-      <!-- Event Reminder -->
-      <div class="mt-8 bg-gold/10 border border-gold/30 rounded-2xl p-6 text-center">
-        <p class="text-gold font-bold text-lg mb-2">📅 Catat Tanggalnya!</p>
-        <p class="text-gray-300 text-sm">
-          <strong class="text-white">ROCKSTAGE 2026</strong> — 24 Maret 2026, 18:00 WIB
-          <br/>Gelora Bung Karno, Jakarta
-        </p>
+      <!-- System Requirements -->
+      <div class="mt-8 bg-accent/10 border border-accent/30 rounded-2xl p-6">
+        <p class="text-accent font-bold text-lg mb-3">� System Requirements</p>
+        <div class="grid sm:grid-cols-3 gap-4 text-sm">
+          <div>
+            <div class="text-white font-medium mb-1">🪟 Windows</div>
+            <div class="text-gray-400">Windows 10/11 64-bit<br/>RAM 4 GB+<br/>Storage 500 MB</div>
+          </div>
+          <div>
+            <div class="text-white font-medium mb-1">🍎 macOS</div>
+            <div class="text-gray-400">macOS 12 Monterey+<br/>RAM 4 GB+<br/>Storage 500 MB</div>
+          </div>
+          <div>
+            <div class="text-white font-medium mb-1">🐧 Linux</div>
+            <div class="text-gray-400">Ubuntu 20.04+ / Fedora 36+<br/>RAM 4 GB+<br/>Storage 500 MB</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

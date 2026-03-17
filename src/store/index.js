@@ -3,19 +3,19 @@ import { reactive } from 'vue'
 export const store = reactive({
   cart: {
     tickets: [],
-    totalAmount: 0
+    totalAmount: 0,
   },
   payment: {
     name: '',
     email: '',
     phone: '',
-    method: 'bank_transfer'
+    method: 'bank_transfer',
   },
   orderConfirmed: false,
   orderId: null,
 
   addTicket(ticket) {
-    const existing = this.cart.tickets.find(t => t.id === ticket.id)
+    const existing = this.cart.tickets.find((t) => t.id === ticket.id)
     if (existing) {
       existing.quantity += 1
     } else {
@@ -25,12 +25,12 @@ export const store = reactive({
   },
 
   removeTicket(ticketId) {
-    this.cart.tickets = this.cart.tickets.filter(t => t.id !== ticketId)
+    this.cart.tickets = this.cart.tickets.filter((t) => t.id !== ticketId)
     this.calculateTotal()
   },
 
   updateQuantity(ticketId, qty) {
-    const ticket = this.cart.tickets.find(t => t.id === ticketId)
+    const ticket = this.cart.tickets.find((t) => t.id === ticketId)
     if (ticket) {
       ticket.quantity = Math.max(1, Math.min(10, qty))
     }
@@ -38,14 +38,12 @@ export const store = reactive({
   },
 
   calculateTotal() {
-    this.cart.totalAmount = this.cart.tickets.reduce(
-      (sum, t) => sum + t.price * t.quantity, 0
-    )
+    this.cart.totalAmount = this.cart.tickets.reduce((sum, t) => sum + t.price * t.quantity, 0)
   },
 
   confirmOrder() {
     this.orderConfirmed = true
-    this.orderId = 'RS-' + Date.now().toString(36).toUpperCase()
+    this.orderId = 'APP-' + Date.now().toString(36).toUpperCase()
   },
 
   resetOrder() {
@@ -54,5 +52,5 @@ export const store = reactive({
     this.payment = { name: '', email: '', phone: '', method: 'bank_transfer' }
     this.orderConfirmed = false
     this.orderId = null
-  }
+  },
 })

@@ -1,13 +1,14 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --font-sans: 'Inter', 'Segoe UI', sans-serif;
-  --color-primary: #c8102e;
-  --color-primary-dark: #a00d24;
-  --color-gold: #d4a017;
-  --color-dark: #1a1a1a;
-  --color-darker: #111111;
-  --color-darkest: #0a0a0a;
+  --color-primary: #6366f1;
+  --color-primary-dark: #4f46e5;
+  --color-accent: #06b6d4;
+  --color-gold: #f59e0b;
+  --color-dark: #1a1a2e;
+  --color-darker: #111127;
+  --color-darkest: #0a0a1a;
 }
 
 html {
