@@ -19,12 +19,7 @@ const plans = [
       'Email support',
       'Update gratis 1 tahun',
     ],
-    notIncluded: [
-      'Kolaborasi tim',
-      'Custom branding',
-      'API access',
-      'Priority support',
-    ],
+    notIncluded: ['Kolaborasi tim', 'Custom branding', 'API access', 'Priority support'],
     color: 'border-gray-500',
     badge: null,
   },
@@ -44,10 +39,7 @@ const plans = [
       'Update gratis 2 tahun',
       'Custom branding',
     ],
-    notIncluded: [
-      'API access',
-      'Dedicated account manager',
-    ],
+    notIncluded: ['API access', 'Dedicated account manager'],
     color: 'border-primary',
     badge: 'TERLARIS',
   },
@@ -149,12 +141,12 @@ function buyPlan(plan) {
         <div class="absolute inset-0 bg-gradient-to-br from-darkest via-darker to-primary/20"></div>
       </div>
       <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div class="inline-block bg-primary/20 text-primary px-4 py-1.5 rounded-full text-sm font-semibold mb-4 border border-primary/30">
+        <div
+          class="inline-block bg-primary/20 text-primary px-4 py-1.5 rounded-full text-sm font-semibold mb-4 border border-primary/30"
+        >
           💎 PILIH PAKETMU
         </div>
-        <h1 class="text-4xl sm:text-5xl font-black text-white mb-4">
-          Harga & Paket Lisensi
-        </h1>
+        <h1 class="text-4xl sm:text-5xl font-black text-white mb-4">Harga & Paket Lisensi</h1>
         <p class="text-gray-300 text-lg max-w-2xl mx-auto">
           Sekali bayar, pakai selamanya. Pilih paket yang paling sesuai dengan kebutuhanmu.
         </p>
@@ -169,7 +161,9 @@ function buyPlan(plan) {
             @click="activeTab = 'pricing'"
             :class="[
               'py-4 text-sm font-bold uppercase tracking-wider border-b-2 transition-colors cursor-pointer',
-              activeTab === 'pricing' ? 'border-primary text-primary' : 'border-transparent text-gray-400 hover:text-white',
+              activeTab === 'pricing'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-gray-400 hover:text-white',
             ]"
           >
             💰 Harga
@@ -178,7 +172,9 @@ function buyPlan(plan) {
             @click="activeTab = 'comparison'"
             :class="[
               'py-4 text-sm font-bold uppercase tracking-wider border-b-2 transition-colors cursor-pointer',
-              activeTab === 'comparison' ? 'border-primary text-primary' : 'border-transparent text-gray-400 hover:text-white',
+              activeTab === 'comparison'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-gray-400 hover:text-white',
             ]"
           >
             📊 Perbandingan
@@ -187,7 +183,9 @@ function buyPlan(plan) {
             @click="activeTab = 'faq'"
             :class="[
               'py-4 text-sm font-bold uppercase tracking-wider border-b-2 transition-colors cursor-pointer',
-              activeTab === 'faq' ? 'border-primary text-primary' : 'border-transparent text-gray-400 hover:text-white',
+              activeTab === 'faq'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-gray-400 hover:text-white',
             ]"
           >
             ❓ FAQ
@@ -240,8 +238,16 @@ function buyPlan(plan) {
                 :key="feature"
                 class="flex items-center gap-3 text-sm text-gray-300"
               >
-                <svg class="w-4 h-4 text-green-400 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                <svg
+                  class="w-4 h-4 text-green-400 shrink-0"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"
+                  />
                 </svg>
                 {{ feature }}
               </li>
@@ -253,7 +259,11 @@ function buyPlan(plan) {
                 class="flex items-center gap-3 text-sm text-gray-600"
               >
                 <svg class="w-4 h-4 text-gray-600 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
                 </svg>
                 {{ item }}
               </li>
@@ -278,9 +288,13 @@ function buyPlan(plan) {
 
         <!-- Guarantee -->
         <div class="mt-12 text-center">
-          <div class="inline-flex items-center gap-3 bg-dark/50 border border-white/10 rounded-full px-6 py-3">
+          <div
+            class="inline-flex items-center gap-3 bg-dark/50 border border-white/10 rounded-full px-6 py-3"
+          >
             <span class="text-2xl">🛡️</span>
-            <span class="text-gray-300 text-sm">Garansi uang kembali <strong class="text-white">30 hari</strong> tanpa syarat</span>
+            <span class="text-gray-300 text-sm"
+              >Garansi uang kembali <strong class="text-white">30 hari</strong> tanpa syarat</span
+            >
           </div>
         </div>
       </div>
@@ -310,26 +324,96 @@ function buyPlan(plan) {
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(row, idx) in comparisonFeatures" :key="idx" class="border-b border-white/5 hover:bg-white/5 transition-colors">
+              <tr
+                v-for="(row, idx) in comparisonFeatures"
+                :key="idx"
+                class="border-b border-white/5 hover:bg-white/5 transition-colors"
+              >
                 <td class="p-4 text-gray-300 text-sm">{{ row.name }}</td>
                 <td class="p-4 text-center text-sm">
                   <span v-if="typeof row.basic === 'boolean'">
-                    <svg v-if="row.basic" class="w-5 h-5 text-green-400 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                    <svg v-else class="w-5 h-5 text-gray-600 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                    <svg
+                      v-if="row.basic"
+                      class="w-5 h-5 text-green-400 mx-auto"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <svg
+                      v-else
+                      class="w-5 h-5 text-gray-600 mx-auto"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
                   </span>
                   <span v-else class="text-gray-300">{{ row.basic }}</span>
                 </td>
                 <td class="p-4 text-center text-sm">
                   <span v-if="typeof row.premium === 'boolean'">
-                    <svg v-if="row.premium" class="w-5 h-5 text-green-400 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                    <svg v-else class="w-5 h-5 text-gray-600 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                    <svg
+                      v-if="row.premium"
+                      class="w-5 h-5 text-green-400 mx-auto"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <svg
+                      v-else
+                      class="w-5 h-5 text-gray-600 mx-auto"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
                   </span>
                   <span v-else class="text-white font-medium">{{ row.premium }}</span>
                 </td>
                 <td class="p-4 text-center text-sm">
                   <span v-if="typeof row.vvip === 'boolean'">
-                    <svg v-if="row.vvip" class="w-5 h-5 text-green-400 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                    <svg v-else class="w-5 h-5 text-gray-600 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                    <svg
+                      v-if="row.vvip"
+                      class="w-5 h-5 text-green-400 mx-auto"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <svg
+                      v-else
+                      class="w-5 h-5 text-gray-600 mx-auto"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
                   </span>
                   <span v-else class="text-gold font-medium">{{ row.vvip }}</span>
                 </td>
@@ -368,10 +452,20 @@ function buyPlan(plan) {
             >
               <span class="text-white font-medium text-sm pr-4">{{ faq.q }}</span>
               <svg
-                :class="['w-5 h-5 text-gray-400 shrink-0 transition-transform', openFaq === idx ? 'rotate-180' : '']"
-                fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                :class="[
+                  'w-5 h-5 text-gray-400 shrink-0 transition-transform',
+                  openFaq === idx ? 'rotate-180' : '',
+                ]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
               </svg>
             </button>
             <Transition

@@ -62,7 +62,12 @@ async function processPayment() {
           class="text-gray-400 hover:text-white text-sm flex items-center gap-2 mb-4 transition-colors cursor-pointer"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
           </svg>
           Kembali ke pilihan paket
         </button>
@@ -76,7 +81,10 @@ async function processPayment() {
           <!-- Personal Info -->
           <div class="bg-dark rounded-2xl p-6 border border-white/10">
             <h2 class="text-white font-bold text-lg mb-6 flex items-center gap-2">
-              <span class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-sm font-bold">1</span>
+              <span
+                class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-sm font-bold"
+                >1</span
+              >
               Data Pembeli
             </h2>
             <div class="space-y-4">
@@ -127,7 +135,10 @@ async function processPayment() {
           <!-- Payment Method -->
           <div class="bg-dark rounded-2xl p-6 border border-white/10">
             <h2 class="text-white font-bold text-lg mb-6 flex items-center gap-2">
-              <span class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-sm font-bold">2</span>
+              <span
+                class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-sm font-bold"
+                >2</span
+              >
               Metode Pembayaran
             </h2>
             <div class="space-y-3">
@@ -141,9 +152,22 @@ async function processPayment() {
                     : 'border-white/10 hover:border-white/30 bg-darker',
                 ]"
               >
-                <input type="radio" :value="method.id" v-model="store.payment.method" class="sr-only"/>
-                <div :class="['w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0', store.payment.method === method.id ? 'border-primary' : 'border-gray-500']">
-                  <div v-if="store.payment.method === method.id" class="w-2.5 h-2.5 bg-primary rounded-full"></div>
+                <input
+                  type="radio"
+                  :value="method.id"
+                  v-model="store.payment.method"
+                  class="sr-only"
+                />
+                <div
+                  :class="[
+                    'w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0',
+                    store.payment.method === method.id ? 'border-primary' : 'border-gray-500',
+                  ]"
+                >
+                  <div
+                    v-if="store.payment.method === method.id"
+                    class="w-2.5 h-2.5 bg-primary rounded-full"
+                  ></div>
                 </div>
                 <span class="text-2xl">{{ method.icon }}</span>
                 <div>
@@ -173,19 +197,29 @@ async function processPayment() {
                     <button
                       @click="store.updateQuantity(item.id, item.quantity - 1)"
                       class="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm transition-colors cursor-pointer"
-                    >−</button>
-                    <span class="text-white text-sm font-medium w-6 text-center">{{ item.quantity }}</span>
+                    >
+                      −
+                    </button>
+                    <span class="text-white text-sm font-medium w-6 text-center">{{
+                      item.quantity
+                    }}</span>
                     <button
                       @click="store.updateQuantity(item.id, item.quantity + 1)"
                       class="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm transition-colors cursor-pointer"
-                    >+</button>
+                    >
+                      +
+                    </button>
                     <button
                       @click="store.removeTicket(item.id)"
                       class="text-red-400 hover:text-red-300 text-xs ml-auto transition-colors cursor-pointer"
-                    >Hapus</button>
+                    >
+                      Hapus
+                    </button>
                   </div>
                 </div>
-                <div class="text-white font-medium text-sm">{{ formatPrice(item.price * item.quantity) }}</div>
+                <div class="text-white font-medium text-sm">
+                  {{ formatPrice(item.price * item.quantity) }}
+                </div>
               </div>
             </div>
 
@@ -216,8 +250,19 @@ async function processPayment() {
             >
               <span v-if="isProcessing" class="flex items-center justify-center gap-2">
                 <svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
                 Memproses...
               </span>

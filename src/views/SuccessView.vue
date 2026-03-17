@@ -91,18 +91,23 @@ function backToHome() {
       <div class="bg-dark rounded-3xl p-8 sm:p-12 border border-white/10 text-center">
         <!-- Animated Check -->
         <div class="mb-8">
-          <div class="w-24 h-24 mx-auto bg-green-500/20 rounded-full flex items-center justify-center animate-pulse">
+          <div
+            class="w-24 h-24 mx-auto bg-green-500/20 rounded-full flex items-center justify-center animate-pulse"
+          >
             <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
               <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="3"
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
           </div>
         </div>
 
-        <h1 class="text-3xl sm:text-4xl font-black text-white mb-3">
-          Pembayaran Berhasil! 🎉
-        </h1>
+        <h1 class="text-3xl sm:text-4xl font-black text-white mb-3">Pembayaran Berhasil! 🎉</h1>
         <p class="text-gray-400 text-lg mb-8">
           Lisensi APPSYNC kamu sudah aktif. Selamat menggunakan!
         </p>
@@ -135,12 +140,10 @@ function backToHome() {
 
           <!-- License items -->
           <div class="space-y-2 mb-4 pb-4 border-b border-white/10">
-            <div class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Lisensi</div>
-            <div
-              v-for="item in ticketDetails"
-              :key="item.id"
-              class="flex justify-between text-sm"
-            >
+            <div class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">
+              Lisensi
+            </div>
+            <div v-for="item in ticketDetails" :key="item.id" class="flex justify-between text-sm">
               <span class="text-white">{{ item.name }} x{{ item.quantity }}</span>
               <span class="text-white">{{ formatPrice(item.price * item.quantity) }}</span>
             </div>
@@ -154,16 +157,23 @@ function backToHome() {
 
         <!-- License Key -->
         <div class="bg-darker rounded-2xl p-6 mb-8 border border-primary/30">
-          <div class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3">🔑 License Key</div>
-          <div class="bg-darkest rounded-xl p-4 font-mono text-primary text-lg sm:text-xl font-bold tracking-widest select-all">
+          <div class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3">
+            🔑 License Key
+          </div>
+          <div
+            class="bg-darkest rounded-xl p-4 font-mono text-primary text-lg sm:text-xl font-bold tracking-widest select-all"
+          >
             {{ licenseKey }}
           </div>
-          <p class="text-gray-500 text-xs mt-3">Simpan license key ini. Kamu akan membutuhkannya saat aktivasi aplikasi.</p>
+          <p class="text-gray-500 text-xs mt-3">
+            Simpan license key ini. Kamu akan membutuhkannya saat aktivasi aplikasi.
+          </p>
         </div>
 
         <p class="text-gray-400 text-sm mb-8">
           License key dan link download telah dikirim ke
-          <span class="text-primary font-medium">{{ customerEmail }}</span>.
+          <span class="text-primary font-medium">{{ customerEmail }}</span
+          >.
         </p>
 
         <!-- Actions -->
@@ -172,7 +182,12 @@ function backToHome() {
             class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300 hover:scale-105 cursor-pointer"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+              />
             </svg>
             Download APPSYNC
           </button>
@@ -182,7 +197,12 @@ function backToHome() {
           >
             Kembali ke Beranda
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
             </svg>
           </button>
         </div>
@@ -194,15 +214,17 @@ function backToHome() {
         <div class="grid sm:grid-cols-3 gap-4 text-sm">
           <div>
             <div class="text-white font-medium mb-1">🪟 Windows</div>
-            <div class="text-gray-400">Windows 10/11 64-bit<br/>RAM 4 GB+<br/>Storage 500 MB</div>
+            <div class="text-gray-400">Windows 10/11 64-bit<br />RAM 4 GB+<br />Storage 500 MB</div>
           </div>
           <div>
             <div class="text-white font-medium mb-1">🍎 macOS</div>
-            <div class="text-gray-400">macOS 12 Monterey+<br/>RAM 4 GB+<br/>Storage 500 MB</div>
+            <div class="text-gray-400">macOS 12 Monterey+<br />RAM 4 GB+<br />Storage 500 MB</div>
           </div>
           <div>
             <div class="text-white font-medium mb-1">🐧 Linux</div>
-            <div class="text-gray-400">Ubuntu 20.04+ / Fedora 36+<br/>RAM 4 GB+<br/>Storage 500 MB</div>
+            <div class="text-gray-400">
+              Ubuntu 20.04+ / Fedora 36+<br />RAM 4 GB+<br />Storage 500 MB
+            </div>
           </div>
         </div>
       </div>
