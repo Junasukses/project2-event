@@ -11,27 +11,17 @@ if (!store.orderConfirmed) {
 }
 
 const ticketDetails = computed(() => store.cart.tickets)
-const orderId = computed(() => store.orderId)
-const customerName = computed(() => store.payment.name)
-const customerEmail = computed(() => store.payment.email)
+const orderId = computed(() => store.orderNumber || store.orderId)
+const customerName = computed(() => store.paymentResult?.registrant?.name || store.payment.name)
+const customerEmail = computed(() => store.paymentResult?.registrant?.email || store.payment.email)
+const customerPhone = computed(() => store.paymentResult?.registrant?.phone || store.payment.phone)
+const paymentMethod = computed(() => store.paymentResult?.payment_method || '-')
+const paymentTime = computed(() => store.paymentResult?.payment_time || '-')
 const totalAmount = computed(() => {
+  if (store.paymentResult?.amount) return store.paymentResult.amount
   const subtotal = store.cart.totalAmount
   const fee = Math.round(subtotal * 0.05)
   return subtotal + fee
-})
-
-// Generate a fake license key
-const licenseKey = computed(() => {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-  const segments = []
-  for (let s = 0; s < 4; s++) {
-    let seg = ''
-    for (let i = 0; i < 5; i++) {
-      seg += chars[Math.floor(Math.random() * chars.length)]
-    }
-    segments.push(seg)
-  }
-  return segments.join('-')
 })
 
 function formatPrice(price) {
@@ -41,6 +31,21 @@ function formatPrice(price) {
     maximumFractionDigits: 0,
   }).format(price)
 }
+
+// Fetch payment status on mount if not already available
+const isLoading = ref(false)
+onMounted(async () => {
+  if (!store.paymentResult && store.orderNumber) {
+    isLoading.value = true
+    try {
+      await store.checkPaymentStatus()
+    } catch {
+      // ignore
+    } finally {
+      isLoading.value = false
+    }
+  }
+})
 
 // Confetti animation
 const confettiPieces = ref([])
@@ -109,13 +114,33 @@ function backToHome() {
 
         <h1 class="text-3xl sm:text-4xl font-black text-white mb-3">Pembayaran Berhasil! 🎉</h1>
         <p class="text-gray-400 text-lg mb-8">
-          Lisensi APPSYNC kamu sudah aktif. Selamat menggunakan!
+          Registrasi kamu sudah berhasil. Selamat menikmati event!
         </p>
+
+        <!-- Loading state -->
+        <div v-if="isLoading" class="text-gray-400 text-sm mb-8">
+          <svg class="animate-spin w-5 h-5 inline mr-2" fill="none" viewBox="0 0 24 24">
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          Memuat detail pembayaran...
+        </div>
 
         <!-- Order Details -->
         <div class="bg-darker rounded-2xl p-6 text-left mb-8 border border-white/5">
           <div class="flex items-center justify-between mb-4 pb-4 border-b border-white/10">
-            <span class="text-gray-400 text-sm">Order ID</span>
+            <span class="text-gray-400 text-sm">Order Number</span>
             <span class="text-primary font-mono font-bold">{{ orderId }}</span>
           </div>
 
@@ -129,12 +154,16 @@ function backToHome() {
               <span class="text-white">{{ customerEmail }}</span>
             </div>
             <div class="flex justify-between text-sm">
-              <span class="text-gray-400">Tipe Lisensi</span>
-              <span class="text-white">Permanent (Lifetime)</span>
+              <span class="text-gray-400">Telepon</span>
+              <span class="text-white">{{ customerPhone }}</span>
             </div>
             <div class="flex justify-between text-sm">
-              <span class="text-gray-400">Platform</span>
-              <span class="text-white">Windows / macOS / Linux</span>
+              <span class="text-gray-400">Metode Pembayaran</span>
+              <span class="text-white">{{ paymentMethod }}</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">Waktu Pembayaran</span>
+              <span class="text-white">{{ paymentTime }}</span>
             </div>
           </div>
 
@@ -155,23 +184,8 @@ function backToHome() {
           </div>
         </div>
 
-        <!-- License Key -->
-        <div class="bg-darker rounded-2xl p-6 mb-8 border border-primary/30">
-          <div class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3">
-            🔑 License Key
-          </div>
-          <div
-            class="bg-darkest rounded-xl p-4 font-mono text-primary text-lg sm:text-xl font-bold tracking-widest select-all"
-          >
-            {{ licenseKey }}
-          </div>
-          <p class="text-gray-500 text-xs mt-3">
-            Simpan license key ini. Kamu akan membutuhkannya saat aktivasi aplikasi.
-          </p>
-        </div>
-
         <p class="text-gray-400 text-sm mb-8">
-          License key dan link download telah dikirim ke
+          Detail registrasi telah dikirim ke
           <span class="text-primary font-medium">{{ customerEmail }}</span
           >.
         </p>
@@ -179,21 +193,8 @@ function backToHome() {
         <!-- Actions -->
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <button
-            class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300 hover:scale-105 cursor-pointer"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-              />
-            </svg>
-            Download APPSYNC
-          </button>
-          <button
             @click="backToHome"
-            class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300 cursor-pointer"
+            class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-xl font-bold text-sm transition-all duration-300 hover:scale-105 cursor-pointer"
           >
             Kembali ke Beranda
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -205,27 +206,6 @@ function backToHome() {
               />
             </svg>
           </button>
-        </div>
-      </div>
-
-      <!-- System Requirements -->
-      <div class="mt-8 bg-accent/10 border border-accent/30 rounded-2xl p-6">
-        <p class="text-accent font-bold text-lg mb-3">� System Requirements</p>
-        <div class="grid sm:grid-cols-3 gap-4 text-sm">
-          <div>
-            <div class="text-white font-medium mb-1">🪟 Windows</div>
-            <div class="text-gray-400">Windows 10/11 64-bit<br />RAM 4 GB+<br />Storage 500 MB</div>
-          </div>
-          <div>
-            <div class="text-white font-medium mb-1">🍎 macOS</div>
-            <div class="text-gray-400">macOS 12 Monterey+<br />RAM 4 GB+<br />Storage 500 MB</div>
-          </div>
-          <div>
-            <div class="text-white font-medium mb-1">🐧 Linux</div>
-            <div class="text-gray-400">
-              Ubuntu 20.04+ / Fedora 36+<br />RAM 4 GB+<br />Storage 500 MB
-            </div>
-          </div>
         </div>
       </div>
     </div>

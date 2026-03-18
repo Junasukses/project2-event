@@ -10,14 +10,9 @@ if (store.cart.tickets.length === 0) {
   router.push('/info')
 }
 
-const paymentMethods = [
-  { id: 'bank_transfer', name: 'Transfer Bank', icon: '🏦', desc: 'BCA, Mandiri, BNI, BRI' },
-  { id: 'ewallet', name: 'E-Wallet', icon: '📱', desc: 'GoPay, OVO, DANA, ShopeePay' },
-  { id: 'credit_card', name: 'Kartu Kredit', icon: '💳', desc: 'Visa, Mastercard, JCB' },
-]
-
 const isProcessing = ref(false)
 const errors = ref({})
+const apiError = ref('')
 
 function formatPrice(price) {
   return new Intl.NumberFormat('id-ID', {
@@ -42,13 +37,97 @@ function validate() {
   return Object.keys(e).length === 0
 }
 
+/**
+ * Poll payment status until paid, then redirect to success.
+ */
+async function pollPaymentStatus() {
+  const maxAttempts = 60 // poll for up to 5 minutes (every 5s)
+  for (let i = 0; i < maxAttempts; i++) {
+    await new Promise((r) => setTimeout(r, 5000))
+    try {
+      const data = await store.checkPaymentStatus()
+      if (data.success && data.data.payment_status === 'paid') {
+        store.confirmOrder()
+        router.push('/success')
+        return
+      }
+    } catch {
+      // ignore polling errors, keep trying
+    }
+  }
+}
+
+/**
+ * Wait until payment status is 'paid' and serial_number is available.
+ * Retries up to maxAttempts with a delay between each.
+ */
+async function waitForPaidStatus(maxAttempts = 10, delayMs = 2000) {
+  for (let i = 0; i < maxAttempts; i++) {
+    try {
+      const data = await store.checkPaymentStatus()
+      if (
+        data.success &&
+        data.data.payment_status === 'paid' &&
+        data.data.registrant?.serial_number
+      ) {
+        return true
+      }
+    } catch {
+      // ignore, retry
+    }
+    await new Promise((r) => setTimeout(r, delayMs))
+  }
+  return false
+}
+
+/**
+ * 1. Register → get snap_token
+ * 2. Open Midtrans Snap popup
+ * 3. On success → wait for paid status with serial_number → redirect
+ */
 async function processPayment() {
   if (!validate()) return
+  apiError.value = ''
   isProcessing.value = true
-  await new Promise((resolve) => setTimeout(resolve, 2000))
-  store.confirmOrder()
-  isProcessing.value = false
-  router.push('/success')
+
+  try {
+    // 1. Call register API
+    await store.register()
+
+    // 2. Open Midtrans Snap popup
+    if (window.snap && store.snapToken) {
+      window.snap.pay(store.snapToken, {
+        onSuccess: async () => {
+          // Payment completed — wait until backend confirms paid + serial_number
+          await waitForPaidStatus()
+          store.confirmOrder()
+          router.push('/success')
+        },
+        onPending: () => {
+          // Payment pending — start polling in background
+          pollPaymentStatus()
+        },
+        onError: () => {
+          apiError.value = 'Pembayaran gagal. Silakan coba lagi.'
+          isProcessing.value = false
+        },
+        onClose: () => {
+          // User closed popup without completing — start polling in case they paid
+          isProcessing.value = false
+          pollPaymentStatus()
+        },
+      })
+    } else if (store.redirectUrl) {
+      // Fallback: redirect to Midtrans web if Snap.js not loaded
+      window.location.href = store.redirectUrl
+    } else {
+      apiError.value = 'Tidak bisa memulai pembayaran. Coba lagi.'
+      isProcessing.value = false
+    }
+  } catch (err) {
+    apiError.value = err.message || 'Terjadi kesalahan. Silakan coba lagi.'
+    isProcessing.value = false
+  }
 }
 </script>
 
@@ -131,52 +210,6 @@ async function processPayment() {
               </div>
             </div>
           </div>
-
-          <!-- Payment Method -->
-          <div class="bg-dark rounded-2xl p-6 border border-white/10">
-            <h2 class="text-white font-bold text-lg mb-6 flex items-center gap-2">
-              <span
-                class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-sm font-bold"
-                >2</span
-              >
-              Metode Pembayaran
-            </h2>
-            <div class="space-y-3">
-              <label
-                v-for="method in paymentMethods"
-                :key="method.id"
-                :class="[
-                  'flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all duration-200',
-                  store.payment.method === method.id
-                    ? 'border-primary bg-primary/10'
-                    : 'border-white/10 hover:border-white/30 bg-darker',
-                ]"
-              >
-                <input
-                  type="radio"
-                  :value="method.id"
-                  v-model="store.payment.method"
-                  class="sr-only"
-                />
-                <div
-                  :class="[
-                    'w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0',
-                    store.payment.method === method.id ? 'border-primary' : 'border-gray-500',
-                  ]"
-                >
-                  <div
-                    v-if="store.payment.method === method.id"
-                    class="w-2.5 h-2.5 bg-primary rounded-full"
-                  ></div>
-                </div>
-                <span class="text-2xl">{{ method.icon }}</span>
-                <div>
-                  <div class="text-white font-medium">{{ method.name }}</div>
-                  <div class="text-gray-400 text-sm">{{ method.desc }}</div>
-                </div>
-              </label>
-            </div>
-          </div>
         </div>
 
         <!-- Order Summary Sidebar -->
@@ -238,6 +271,14 @@ async function processPayment() {
               </div>
             </div>
 
+            <!-- API Error -->
+            <div
+              v-if="apiError"
+              class="mt-4 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm text-center"
+            >
+              {{ apiError }}
+            </div>
+
             <button
               @click="processPayment"
               :disabled="isProcessing || store.cart.tickets.length === 0"
@@ -269,7 +310,9 @@ async function processPayment() {
               <span v-else>Bayar Sekarang</span>
             </button>
 
-            <p class="text-gray-500 text-xs text-center mt-4">🔒 Pembayaran aman dan terenkripsi</p>
+            <p class="text-gray-500 text-xs text-center mt-4">
+              🔒 Pembayaran diproses melalui Midtrans
+            </p>
           </div>
         </div>
       </div>
