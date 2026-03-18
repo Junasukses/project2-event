@@ -2,11 +2,15 @@ import { reactive } from 'vue'
 
 const API_BASE = 'http://localhost:8000/api/v1'
 
+// Single product — no plan selection needed
+const PRODUCT = {
+  name: 'APPSYNC License',
+  price: 142857,
+}
+
 export const store = reactive({
-  cart: {
-    tickets: [],
-    totalAmount: 0,
-  },
+  product: { ...PRODUCT },
+
   payment: {
     name: '',
     email: '',
@@ -22,33 +26,18 @@ export const store = reactive({
   registrantId: null,
 
   // Payment result (from status check)
-  paymentResult: null, // { order_number, payment_method, payment_status, amount, payment_time, registrant }
+  paymentResult: null,
 
-  addTicket(ticket) {
-    const existing = this.cart.tickets.find((t) => t.id === ticket.id)
-    if (existing) {
-      existing.quantity += 1
-    } else {
-      this.cart.tickets.push({ ...ticket, quantity: 1 })
-    }
-    this.calculateTotal()
+  get totalAmount() {
+    return this.product.price
   },
 
-  removeTicket(ticketId) {
-    this.cart.tickets = this.cart.tickets.filter((t) => t.id !== ticketId)
-    this.calculateTotal()
+  get serviceFee() {
+    return Math.round(this.totalAmount * 0.05)
   },
 
-  updateQuantity(ticketId, qty) {
-    const ticket = this.cart.tickets.find((t) => t.id === ticketId)
-    if (ticket) {
-      ticket.quantity = Math.max(1, Math.min(10, qty))
-    }
-    this.calculateTotal()
-  },
-
-  calculateTotal() {
-    this.cart.totalAmount = this.cart.tickets.reduce((sum, t) => sum + t.price * t.quantity, 0)
+  get grandTotal() {
+    return this.totalAmount + this.serviceFee
   },
 
   /**
@@ -97,8 +86,7 @@ export const store = reactive({
   },
 
   resetOrder() {
-    this.cart.tickets = []
-    this.cart.totalAmount = 0
+    this.product = { ...PRODUCT }
     this.payment = { name: '', email: '', phone: '' }
     this.orderConfirmed = false
     this.orderId = null

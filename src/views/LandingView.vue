@@ -127,10 +127,10 @@ const platforms = [
             </p>
             <div class="flex flex-wrap gap-4 mb-8">
               <RouterLink
-                to="/info"
+                to="/payment"
                 class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/30"
               >
-                Lihat Harga
+                Beli Sekarang
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     stroke-linecap="round"
@@ -319,14 +319,14 @@ const platforms = [
           Siap Meningkatkan Produktivitas?
         </h2>
         <p class="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-          Gabung dengan 50.000+ profesional yang sudah menggunakan APPSYNC. Pilih paket yang sesuai
-          kebutuhanmu.
+          Gabung dengan 50.000+ profesional yang sudah menggunakan APPSYNC. Dapatkan lisensi
+          sekarang dan tingkatkan produktivitasmu.
         </p>
         <RouterLink
-          to="/info"
+          to="/payment"
           class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-10 py-5 rounded-xl text-xl font-bold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/30"
         >
-          LIHAT PAKET & HARGA
+          BELI SEKARANG
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"

@@ -6,9 +6,8 @@ const isMenuOpen = ref(false)
 
 const navLinks = [
   { name: 'Fitur', to: '/#features' },
-  { name: 'Harga', to: '/info' },
+  { name: 'Screenshot', to: '/#screenshots' },
   { name: 'Testimoni', to: '/#testimonials' },
-  { name: 'FAQ', to: '/info' },
 ]
 </script>
 
@@ -50,7 +49,7 @@ const navLinks = [
         <!-- CTA -->
         <div class="hidden md:flex items-center gap-4">
           <RouterLink
-            to="/info"
+            to="/payment"
             class="bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-lg text-sm font-bold transition-all duration-200 hover:scale-105"
           >
             BELI SEKARANG →
@@ -106,7 +105,7 @@ const navLinks = [
             {{ link.name }}
           </RouterLink>
           <RouterLink
-            to="/info"
+            to="/payment"
             @click="isMenuOpen = false"
             class="block bg-primary hover:bg-primary-dark text-white px-5 py-3 rounded-lg text-sm font-bold text-center mt-4"
           >

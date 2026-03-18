@@ -38,9 +38,9 @@ import { RouterLink } from 'vue-router'
             </li>
             <li>
               <RouterLink
-                to="/info"
+                to="/payment"
                 class="text-gray-400 hover:text-white text-sm transition-colors"
-                >Harga & Paket</RouterLink
+                >Beli Lisensi</RouterLink
               >
             </li>
             <li>

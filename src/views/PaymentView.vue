@@ -1,14 +1,9 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { store } from '@/store'
 
 const router = useRouter()
-
-// Redirect if no items
-if (store.cart.tickets.length === 0) {
-  router.push('/info')
-}
 
 const isProcessing = ref(false)
 const errors = ref({})
@@ -21,9 +16,6 @@ function formatPrice(price) {
     maximumFractionDigits: 0,
   }).format(price)
 }
-
-const serviceFee = computed(() => Math.round(store.cart.totalAmount * 0.05))
-const grandTotal = computed(() => store.cart.totalAmount + serviceFee.value)
 
 function validate() {
   const e = {}
@@ -41,7 +33,7 @@ function validate() {
  * Poll payment status until paid, then redirect to success.
  */
 async function pollPaymentStatus() {
-  const maxAttempts = 60 // poll for up to 5 minutes (every 5s)
+  const maxAttempts = 60
   for (let i = 0; i < maxAttempts; i++) {
     await new Promise((r) => setTimeout(r, 5000))
     try {
@@ -58,32 +50,9 @@ async function pollPaymentStatus() {
 }
 
 /**
- * Wait until payment status is 'paid' and serial_number is available.
- * Retries up to maxAttempts with a delay between each.
- */
-async function waitForPaidStatus(maxAttempts = 10, delayMs = 2000) {
-  for (let i = 0; i < maxAttempts; i++) {
-    try {
-      const data = await store.checkPaymentStatus()
-      if (
-        data.success &&
-        data.data.payment_status === 'paid' &&
-        data.data.registrant?.serial_number
-      ) {
-        return true
-      }
-    } catch {
-      // ignore, retry
-    }
-    await new Promise((r) => setTimeout(r, delayMs))
-  }
-  return false
-}
-
-/**
  * 1. Register → get snap_token
  * 2. Open Midtrans Snap popup
- * 3. On success → wait for paid status with serial_number → redirect
+ * 3. On success → poll status → redirect
  */
 async function processPayment() {
   if (!validate()) return
@@ -91,20 +60,25 @@ async function processPayment() {
   isProcessing.value = true
 
   try {
-    // 1. Call register API
     await store.register()
 
-    // 2. Open Midtrans Snap popup
     if (window.snap && store.snapToken) {
       window.snap.pay(store.snapToken, {
         onSuccess: async () => {
-          // Payment completed — wait until backend confirms paid + serial_number
-          await waitForPaidStatus()
+          try {
+            const data = await store.checkPaymentStatus()
+            if (data.success && data.data.payment_status === 'paid') {
+              store.confirmOrder()
+              router.push('/success')
+              return
+            }
+          } catch {
+            // fallback
+          }
           store.confirmOrder()
           router.push('/success')
         },
         onPending: () => {
-          // Payment pending — start polling in background
           pollPaymentStatus()
         },
         onError: () => {
@@ -112,13 +86,11 @@ async function processPayment() {
           isProcessing.value = false
         },
         onClose: () => {
-          // User closed popup without completing — start polling in case they paid
           isProcessing.value = false
           pollPaymentStatus()
         },
       })
     } else if (store.redirectUrl) {
-      // Fallback: redirect to Midtrans web if Snap.js not loaded
       window.location.href = store.redirectUrl
     } else {
       apiError.value = 'Tidak bisa memulai pembayaran. Coba lagi.'
@@ -137,7 +109,7 @@ async function processPayment() {
       <!-- Header -->
       <div class="mb-8">
         <button
-          @click="router.push('/info')"
+          @click="router.push('/')"
           class="text-gray-400 hover:text-white text-sm flex items-center gap-2 mb-4 transition-colors cursor-pointer"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,10 +120,10 @@ async function processPayment() {
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          Kembali ke pilihan paket
+          Kembali ke beranda
         </button>
         <h1 class="text-3xl font-black text-white uppercase">Pembayaran</h1>
-        <p class="text-gray-400 mt-1">Lengkapi data diri dan pilih metode pembayaran</p>
+        <p class="text-gray-400 mt-1">Lengkapi data diri untuk membeli lisensi APPSYNC</p>
       </div>
 
       <div class="grid lg:grid-cols-3 gap-8">
@@ -217,57 +189,31 @@ async function processPayment() {
           <div class="bg-dark rounded-2xl p-6 border border-white/10 sticky top-24">
             <h2 class="text-white font-bold text-lg mb-6">Ringkasan Pesanan</h2>
 
-            <!-- Items -->
-            <div class="space-y-4 mb-6">
-              <div
-                v-for="item in store.cart.tickets"
-                :key="item.id"
-                class="flex items-start justify-between gap-4"
-              >
-                <div class="flex-1">
-                  <div class="text-white font-medium text-sm">{{ item.name }}</div>
-                  <div class="flex items-center gap-3 mt-2">
-                    <button
-                      @click="store.updateQuantity(item.id, item.quantity - 1)"
-                      class="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm transition-colors cursor-pointer"
-                    >
-                      −
-                    </button>
-                    <span class="text-white text-sm font-medium w-6 text-center">{{
-                      item.quantity
-                    }}</span>
-                    <button
-                      @click="store.updateQuantity(item.id, item.quantity + 1)"
-                      class="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm transition-colors cursor-pointer"
-                    >
-                      +
-                    </button>
-                    <button
-                      @click="store.removeTicket(item.id)"
-                      class="text-red-400 hover:text-red-300 text-xs ml-auto transition-colors cursor-pointer"
-                    >
-                      Hapus
-                    </button>
-                  </div>
-                </div>
-                <div class="text-white font-medium text-sm">
-                  {{ formatPrice(item.price * item.quantity) }}
-                </div>
+            <!-- Single Product -->
+            <div class="flex items-center justify-between gap-4 mb-6">
+              <div>
+                <div class="text-white font-medium text-sm">{{ store.product.name }}</div>
+                <div class="text-gray-500 text-xs mt-1">Lisensi Selamanya</div>
+              </div>
+              <div class="text-white font-medium text-sm">
+                {{ formatPrice(store.product.price) }}
               </div>
             </div>
 
             <div class="border-t border-white/10 pt-4 space-y-3">
               <div class="flex justify-between text-sm">
                 <span class="text-gray-400">Subtotal</span>
-                <span class="text-white">{{ formatPrice(store.cart.totalAmount) }}</span>
+                <span class="text-white">{{ formatPrice(store.totalAmount) }}</span>
               </div>
               <div class="flex justify-between text-sm">
                 <span class="text-gray-400">Biaya Layanan (5%)</span>
-                <span class="text-white">{{ formatPrice(serviceFee) }}</span>
+                <span class="text-white">{{ formatPrice(store.serviceFee) }}</span>
               </div>
               <div class="border-t border-white/10 pt-3 flex justify-between">
                 <span class="text-white font-bold">Total</span>
-                <span class="text-primary font-black text-xl">{{ formatPrice(grandTotal) }}</span>
+                <span class="text-primary font-black text-xl">{{
+                  formatPrice(store.grandTotal)
+                }}</span>
               </div>
             </div>
 
@@ -281,7 +227,7 @@ async function processPayment() {
 
             <button
               @click="processPayment"
-              :disabled="isProcessing || store.cart.tickets.length === 0"
+              :disabled="isProcessing"
               :class="[
                 'w-full mt-6 py-4 rounded-xl font-bold text-sm uppercase tracking-wider transition-all duration-300 cursor-pointer',
                 isProcessing

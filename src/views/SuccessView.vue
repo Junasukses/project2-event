@@ -10,7 +10,6 @@ if (!store.orderConfirmed) {
   router.push('/')
 }
 
-const ticketDetails = computed(() => store.cart.tickets)
 const orderId = computed(() => store.orderNumber || store.orderId)
 const customerName = computed(() => store.paymentResult?.registrant?.name || store.payment.name)
 const customerEmail = computed(() => store.paymentResult?.registrant?.email || store.payment.email)
@@ -19,9 +18,7 @@ const paymentMethod = computed(() => store.paymentResult?.payment_method || '-')
 const paymentTime = computed(() => store.paymentResult?.payment_time || '-')
 const totalAmount = computed(() => {
   if (store.paymentResult?.amount) return store.paymentResult.amount
-  const subtotal = store.cart.totalAmount
-  const fee = Math.round(subtotal * 0.05)
-  return subtotal + fee
+  return store.grandTotal
 })
 
 function formatPrice(price) {
@@ -167,14 +164,20 @@ function backToHome() {
             </div>
           </div>
 
-          <!-- License items -->
+          <!-- License item -->
           <div class="space-y-2 mb-4 pb-4 border-b border-white/10">
             <div class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">
               Lisensi
             </div>
-            <div v-for="item in ticketDetails" :key="item.id" class="flex justify-between text-sm">
-              <span class="text-white">{{ item.name }} x{{ item.quantity }}</span>
-              <span class="text-white">{{ formatPrice(item.price * item.quantity) }}</span>
+            <div class="flex flex-col text-sm">
+              <div class="flex justify-between">
+                <span class="text-white">{{ store.product.name }}</span>
+                <span class="text-white">{{ formatPrice(store.product.price) }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-white">Service Fee</span>
+                <span class="text-white">{{ formatPrice(store.serviceFee) }}</span>
+              </div>
             </div>
           </div>
 
